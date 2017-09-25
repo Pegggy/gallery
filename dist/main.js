@@ -22411,6 +22411,10 @@ var _reactDom = __webpack_require__(57);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _imgsdata = __webpack_require__(185);
+
+var _imgsdata2 = _interopRequireDefault(_imgsdata);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22418,6 +22422,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ImgsInfo = _imgsdata2.default.map(function (img, index) {
+  img.url = '../../imgs' + img.filename;
+});
+console.log(ImgsInfo);
 
 var Gallery = function (_Component) {
   _inherits(Gallery, _Component);
@@ -22444,5 +22453,12 @@ var Gallery = function (_Component) {
 
 exports.default = Gallery;
 
+/***/ }),
+/* 185 */
+/***/ (function(module, exports) {
+
+module.exports = [{"filename":"1.jpg","title":"The first picture","desc":"here he comes "},{"filename":"2.jpg","title":"The second picture","desc":"here he comes "},{"filename":"3.jpg","title":"The third picture","desc":"here he comes "},{"filename":"4.jpg","title":"The fourth picture","desc":"here he comes "},{"filename":"5.jpg","title":"The fifth picture","desc":"here he comes "},{"filename":"6.jpg","title":"The sixth picture","desc":"here he comes "},{"filename":"7.jpg","title":"The seventh picture","desc":"here he comes "},{"filename":"8.jpg","title":"The eighth picture","desc":"here he comes "},{"filename":"9.jpg","title":"The ninth picture","desc":"here he comes "},{"filename":"10.jpg","title":"The tenth picture","desc":"here he comes "},{"filename":"11.jpg","title":"The 11th picture","desc":"here he comes "},{"filename":"12.jpg","title":"The 12th picture","desc":"here he comes "},{"filename":"13.jpg","title":"The 13th picture","desc":"here he comes "},{"filename":"14.jpg","title":"The 14th picture","desc":"here he comes "},{"filename":"15.jpg","title":"The 15th picture","desc":"here he comes "},{"filename":"16.jpg","title":"The 16th picture","desc":"here he comes "}]
+
 /***/ })
 /******/ ]);
+//# sourceMappingURL=main.js.map
