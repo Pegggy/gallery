@@ -7,13 +7,16 @@ module.exports = {
     path: path.resolve(__dirname,'./dist'),
     filename: "[name].js"
   },
-	plugins: [
-		new HtmlWebpackPlugin({
-			filename : "./index.html",
-			template: "./index.html",
-			inject : "body"
-		})
-	],
+	// plugins: [
+	// 	new HtmlWebpackPlugin({
+	// 		filename : "./index.html",
+	// 		template: "./index.html",
+	// 		inject : "body"
+	// 	})
+	// ],
+	devServer:{
+    contentBase: path.join(__dirname,'./dist')
+  },
 	module : {
 		rules:[
 			{
@@ -69,5 +72,4 @@ module.exports = {
 			}
 		]
 	}
-}
 }
