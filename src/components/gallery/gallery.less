@@ -5,14 +5,16 @@ body{
   width: 100%;
   height: 100%;
 }
-
+h3{
+  margin: 0;
+  padding: 0;
+}
 .stage{
   width: 100%;
-  // height: 680px;
+  height: 680px;
   position: relative;
   background: #ccc;
 }
-
 .img-container{
   width: 100%;
   height: 100%;
@@ -20,6 +22,29 @@ body{
   background: #dedede;
   overflow: hidden;
 }
+.img-figure{
+  position: absolute;
+  width: 280px;
+  height: 300px;
+  margin: 0;
+  padding: 20px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 16px -1px rgba(0,0,0,0.19);
+  background: #fff;
+  img{
+    width: 240px;
+  }
+  figcaption{
+    text-align: center;
+    .img-title{
+      font-size: 16px; 
+      color: #a7a2a0;
+      margin: 5px 0 0 0;
+    }
+  }
+}
+
 .img-nav{
   position: absolute;
   left: 0;

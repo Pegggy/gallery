@@ -20,10 +20,11 @@ class Image extends Component{
     //   style["transform"] = `rotate(${this.props.arrange.rotate}deg`
     // }
     return(
-      <figure className="img-pin">
-        <img src={this.props.data.url} alt={this.props.data.des} />	
+      <figure className="img-figure">
+        <img src={this.props.data.url} 
+        alt={this.props.data.title} />	
         <figcaption>
-          <h3>{this.props.data.title}</h3>
+          <h3 className="img-title">{this.props.data.title}</h3>
         </figcaption>
       </figure>
     )

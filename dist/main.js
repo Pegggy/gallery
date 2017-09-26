@@ -22431,7 +22431,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // 获取图片数组相关信息，增加 URL
 var ImgInfos = _imgsdata2.default.map(function (img) {
-  return Object.assign({}, img, { url: 'imgs/' + img.filename });
+  return Object.assign({}, img, { url: __webpack_require__(191)("./" + img.filename) });
 });
 
 var Image = function (_Component) {
@@ -22488,6 +22488,7 @@ var Gallery = function (_Component2) {
       var navigators = [];
       var imgFigures = [];
       ImgInfos.forEach(function (imgInfo) {
+        console.log(imgInfo.url);
         imgFigures.push(_react2.default.createElement(Image, { data: imgInfo }));
       });
       return _react2.default.createElement(
@@ -22558,7 +22559,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\n.stage {\n  width: 100%;\n  height: 680px;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\n.stage {\n  width: 100%;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -23098,6 +23099,140 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./1.jpg": 192,
+	"./10.jpg": 193,
+	"./11.jpg": 194,
+	"./12.jpg": 195,
+	"./13.jpg": 196,
+	"./14.jpg": 197,
+	"./15.jpg": 198,
+	"./16.jpg": 199,
+	"./2.jpg": 200,
+	"./3.jpg": 201,
+	"./4.jpg": 202,
+	"./5.jpg": 203,
+	"./6.jpg": 204,
+	"./7.jpg": 205,
+	"./8.jpg": 206,
+	"./9.jpg": 207
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 191;
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/1.jpg";
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/10.jpg";
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/11.jpg";
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/12.jpg";
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/13.jpg";
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/14.jpg";
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/15.jpg";
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/16.jpg";
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/2.jpg";
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/3.jpg";
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/4.jpg";
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/5.jpg";
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/6.jpg";
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/7.jpg";
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/8.jpg";
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "src/imgs/9.jpg";
 
 /***/ })
 /******/ ]);
