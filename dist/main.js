@@ -9772,6 +9772,10 @@ var _gallery2 = _interopRequireDefault(_gallery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+if (false) {
+    module.hot.accept();
+}
+
 (0, _reactDom.render)(_react2.default.createElement(_gallery2.default, null), document.getElementById('root'));
 
 /***/ }),
@@ -22423,13 +22427,52 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ImgsInfo = _imgsdata2.default.map(function (img, index) {
-  img.url = '../../imgs' + img.filename;
+// 获取图片数组相关信息，增加 URL
+var ImgsInfo = _imgsdata2.default.map(function (img) {
+  return Object.assign({}, img, { url: '../../imgs/' + img.filename });
 });
-console.log(ImgsInfo);
 
-var Gallery = function (_Component) {
-  _inherits(Gallery, _Component);
+var Image = function (_Component) {
+  _inherits(Image, _Component);
+
+  function Image() {
+    _classCallCheck(this, Image);
+
+    return _possibleConstructorReturn(this, (Image.__proto__ || Object.getPrototypeOf(Image)).apply(this, arguments));
+  }
+
+  _createClass(Image, [{
+    key: 'render',
+    value: function render() {
+      var styleObj = {};
+      if (this.props.arrange.pos) {
+        styleObj = this.props.arrange.pos;
+      }
+      if (this.props.arrange.rotate) {
+        style["transform"] = 'rotate(' + this.props.arrange.rotate + 'deg';
+      }
+      return _react2.default.createElement(
+        'figure',
+        { className: 'img-pin', style: styleObj },
+        _react2.default.createElement('img', { src: this.props.data.url, alt: this.props.data.des }),
+        _react2.default.createElement(
+          'figcaption',
+          null,
+          _react2.default.createElement(
+            'h3',
+            null,
+            this.props.data.title
+          )
+        )
+      );
+    }
+  }]);
+
+  return Image;
+}(_react.Component);
+
+var Gallery = function (_Component2) {
+  _inherits(Gallery, _Component2);
 
   function Gallery() {
     _classCallCheck(this, Gallery);
@@ -22442,8 +22485,9 @@ var Gallery = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
-        ' hello react'
+        { className: 'stage' },
+        _react2.default.createElement('div', { className: 'img-container' }),
+        _react2.default.createElement('nav', { className: 'img-nav' })
       );
     }
   }]);
