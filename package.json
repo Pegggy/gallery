@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/Pegggy/gallery/issues"
   },
-  "homepage": "https://github.com/Pegggy/gallery/build",
+  "homepage": "https://github.com/Pegggy/gallery/dist",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
