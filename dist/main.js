@@ -22455,14 +22455,15 @@ var Image = function (_Component) {
       // }
       return _react2.default.createElement(
         'figure',
-        { className: 'img-pin' },
-        _react2.default.createElement('img', { src: this.props.data.url, alt: this.props.data.des }),
+        { className: 'img-figure', id: this.props.id },
+        _react2.default.createElement('img', { src: this.props.data.url,
+          alt: this.props.data.title }),
         _react2.default.createElement(
           'figcaption',
           null,
           _react2.default.createElement(
             'h3',
-            null,
+            { className: 'img-title' },
             this.props.data.title
           )
         )
@@ -22472,28 +22473,101 @@ var Image = function (_Component) {
 
   return Image;
 }(_react.Component);
+/**
+ * 整个 stage 分为左分区、右分区、上分区以及中间展示的 figure
+ * 左右分区的 y 方向取值范围相同，因此设置不同的水平方向取值返回
+ * 上分区另设自己的取值范围
+ */
+
 
 var Gallery = function (_Component2) {
   _inherits(Gallery, _Component2);
 
-  function Gallery() {
+  function Gallery(props) {
     _classCallCheck(this, Gallery);
 
-    return _possibleConstructorReturn(this, (Gallery.__proto__ || Object.getPrototypeOf(Gallery)).apply(this, arguments));
+    //初始化 figure 的位置
+    var _this2 = _possibleConstructorReturn(this, (Gallery.__proto__ || Object.getPrototypeOf(Gallery)).call(this, props));
+
+    _this2.constantPos = {
+      //中间展示 figure
+      centerPos: {
+        left: 0,
+        top: 0
+      },
+      //水平方向取值范围
+      horizontalRange: {
+        leftSectionX: [0, 0], //左分区figure 的 x(水平)方向取值范围
+        rightSectionX: [0, 0], //右分区figure 的 x(水平)方向取值范围
+        y: [0, 0] // y 方向取值范围
+      },
+      //垂直方向取值范围
+      verticalRangr: {
+        x: [0, 0],
+        topSectionY: [0, 0]
+      }
+    };
+    _this2.state = {
+      //  存储每个 figure 的位置
+      figureArrangeArr: [
+        /*
+        {
+          pos:{
+            left: '0',
+            top: '0'
+          }
+        }
+        */
+      ]
+    };
+    return _this2;
   }
+  // 在组件初次渲染之后触发，计算figure位置范围
+
 
   _createClass(Gallery, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // 获取 stage 的宽高
+      var stage = document.getElementById('stage'),
+          stageWidth = stage.scrollWidth,
+          stageHeight = stage.scrollHeight,
+          halfStageWidth = Math.ceil(stageWidth / 2),
+          halfStageHeight = Math.ceil(stageHeight / 2);
+      // 获取 figure 的宽高
+      var figure = document.getElementById('figure0'),
+          figureWidth = figure.scrollWidth,
+          figureHeight = figure.scrollHeight,
+          halfFigureWidth = Math.ceil(figureWidth / 2),
+          halfFigureHeight = Math.ceil(figureHeight / 2);
+      this.constantPos = {
+        // 中心 figure 位置
+        centerPos: {
+          left: halfStageWidth - halfFigureWidth,
+          top: halfStageHeight - halfFigureHeight
+        },
+        horizontalRange: {
+          leftSectionX: [-halfFigureWidth, halfStageWidth - 3 * halfFigureWidth],
+          rightSectionX: [3 * halfFigureWidth + halfStageWidth, stageWidth - halfFigureWidth],
+          y: [-halfFigureHeight, stageHeight - halfFigureHeight]
+        },
+        verticalRangr: {
+          x: [halfStageWidth - figureWidth, halfStageWidth],
+          topSectionY: [-halfFigureHeight, halfStageHeight - 3 * halfFigureHeight]
+        }
+      };
+    }
+  }, {
     key: 'render',
     value: function render() {
       var navigators = [];
       var imgFigures = [];
-      ImgInfos.forEach(function (imgInfo) {
-        console.log(imgInfo.url);
-        imgFigures.push(_react2.default.createElement(Image, { data: imgInfo }));
+      ImgInfos.forEach(function (imgInfo, index) {
+        imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, id: "figure" + index }));
       });
       return _react2.default.createElement(
         'div',
-        { className: 'stage' },
+        { className: 'stage', id: 'stage' },
         _react2.default.createElement(
           'div',
           { className: 'img-container' },
@@ -22517,7 +22591,7 @@ exports.default = Gallery;
 /* 185 */
 /***/ (function(module, exports) {
 
-module.exports = [{"filename":"1.jpg","title":"The first picture","desc":"here he comes "},{"filename":"2.jpg","title":"The second picture","desc":"here he comes "},{"filename":"3.jpg","title":"The third picture","desc":"here he comes "},{"filename":"4.jpg","title":"The fourth picture","desc":"here he comes "},{"filename":"5.jpg","title":"The fifth picture","desc":"here he comes "},{"filename":"6.jpg","title":"The sixth picture","desc":"here he comes "},{"filename":"7.jpg","title":"The seventh picture","desc":"here he comes "},{"filename":"8.jpg","title":"The eighth picture","desc":"here he comes "},{"filename":"9.jpg","title":"The ninth picture","desc":"here he comes "},{"filename":"10.jpg","title":"The tenth picture","desc":"here he comes "},{"filename":"11.jpg","title":"The 11th picture","desc":"here he comes "},{"filename":"12.jpg","title":"The 12th picture","desc":"here he comes "},{"filename":"13.jpg","title":"The 13th picture","desc":"here he comes "},{"filename":"14.jpg","title":"The 14th picture","desc":"here he comes "},{"filename":"15.jpg","title":"The 15th picture","desc":"here he comes "},{"filename":"16.jpg","title":"The 16th picture","desc":"here he comes "}]
+module.exports = [{"filename":"1.jpg","title":"The first picture","desc":"This is a picture"},{"filename":"2.jpg","title":"The second picture","desc":"This is a picture"},{"filename":"3.jpg","title":"The third picture","desc":"This is a picture"},{"filename":"4.jpg","title":"The fourth picture","desc":"This is a picture"},{"filename":"5.jpg","title":"The fifth picture","desc":"This is a picture"},{"filename":"6.jpg","title":"The sixth picture","desc":"This is a picture"},{"filename":"7.jpg","title":"The seventh picture","desc":"This is a picture"},{"filename":"8.jpg","title":"The eighth picture","desc":"This is a picture"},{"filename":"9.jpg","title":"The ninth picture","desc":"This is a picture"},{"filename":"10.jpg","title":"The tenth picture","desc":"This is a picture"},{"filename":"11.jpg","title":"The 11th picture","desc":"This is a picture"},{"filename":"12.jpg","title":"The 12th picture","desc":"This is a picture"},{"filename":"13.jpg","title":"The 13th picture","desc":"This is a picture"},{"filename":"14.jpg","title":"The 14th picture","desc":"This is a picture"},{"filename":"15.jpg","title":"The 15th picture","desc":"This is a picture"},{"filename":"16.jpg","title":"The 16th picture","desc":"This is a picture"}]
 
 /***/ }),
 /* 186 */
@@ -22559,7 +22633,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\n.stage {\n  width: 100%;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  width: 100%;\n  height: 680px;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure figcaption .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
 
 // exports
 
