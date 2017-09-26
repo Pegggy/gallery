@@ -42,23 +42,36 @@ module.exports = {
 						})]
 					}
 				}
-			},{
-				test: /\.(woff|svg|ttf|eot)$/i,
-				loader:'url-loader',
-				options:{
-					/*图片名称*/
-					name:"fonts/[name].[ext]",
-					/*位置*/
-				}
-			},{
-				test: /\.(gif|png|jpe?g|svg)$/i,
-				loader:'file-loader',
-				options:{
-					/*图片名称*/
-					name:"images/[name].[ext]",
-					/*位置*/
-				}
-			},{
+			},
+			// {
+			// 	test: /\.(woff|svg|ttf|eot)$/i,
+			// 	loader:'url-loader',
+			// 	options:{
+			// 		/*图片名称*/
+			// 		name:"fonts/[name].[ext]",
+			// 		/*位置*/
+			// 	}
+			// },
+			//引入 imgs 下的图片
+			{
+					test: /\.(png|jpg|gif)$/,
+					use: [{
+							loader: 'file-loader',
+							options:{
+								name: "[path][name].[ext]"
+							}
+					}]
+			},
+			// {
+			// 	test: /\.(gif|png|jpe?g|svg)$/i,
+			// 	loader:'file-loader',
+			// 	options:{
+			// 		/*图片名称*/
+			// 		name:"imgs/[name].[ext]",
+			// 		/*位置*/
+			// 	}
+			// },
+			{
 				test:/\.json$/,
 				loader:"json-loader"
 			},{
@@ -72,5 +85,10 @@ module.exports = {
 				}]
 			}
 		]
-	}
+	},
+	resolve: {
+    alias: {
+      src: path.resolve(__dirname,'./src')
+    }
+  }
 }
