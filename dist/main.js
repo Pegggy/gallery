@@ -22446,16 +22446,17 @@ var Image = function (_Component) {
   _createClass(Image, [{
     key: 'render',
     value: function render() {
-      // let styleObj = {}
-      // if(this.props.arrange.pos){
-      //   styleObj = this.props.arrange.pos
-      // }
+      var styleObj = {};
+      if (this.props.arrange.pos) {
+        styleObj = this.props.arrange.pos;
+      }
       // if(this.props.arrange.rotate){
       //   style["transform"] = `rotate(${this.props.arrange.rotate}deg`
       // }
       return _react2.default.createElement(
         'figure',
-        { className: 'img-figure', id: this.props.id },
+        { className: 'img-figure', id: this.props.id,
+          style: styleObj },
         _react2.default.createElement('img', { src: this.props.data.url,
           alt: this.props.data.title }),
         _react2.default.createElement(
@@ -22473,12 +22474,16 @@ var Image = function (_Component) {
 
   return Image;
 }(_react.Component);
+
+var getRandom = function getRandom(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
 /**
  * 整个 stage 分为左分区、右分区、上分区以及中间展示的 figure
  * 左右分区的 y 方向取值范围相同，因此设置不同的水平方向取值返回
  * 上分区另设自己的取值范围
  */
-
 
 var Gallery = function (_Component2) {
   _inherits(Gallery, _Component2);
@@ -22502,7 +22507,7 @@ var Gallery = function (_Component2) {
         y: [0, 0] // y 方向取值范围
       },
       //垂直方向取值范围
-      verticalRangr: {
+      verticalRange: {
         x: [0, 0],
         topSectionY: [0, 0]
       }
@@ -22513,8 +22518,8 @@ var Gallery = function (_Component2) {
         /*
         {
           pos:{
-            left: '0',
-            top: '0'
+            left: 0,
+            top: 0
           }
         }
         */
@@ -22522,10 +22527,62 @@ var Gallery = function (_Component2) {
     };
     return _this2;
   }
-  // 在组件初次渲染之后触发，计算figure位置范围
+
+  // 重新排布图片
 
 
   _createClass(Gallery, [{
+    key: 'reArrangFigure',
+    value: function reArrangFigure(centerIndex) {
+      var constantPos = this.constantPos,
+          centerPos = constantPos.centerPos,
+          horizontalRange = constantPos.horizontalRange,
+          verticalRange = constantPos.verticalRange,
+          leftSectionX = horizontalRange.leftSectionX,
+          rightSectionX = horizontalRange.rightSectionX;
+      var figureArrangeArr = this.state.figureArrangeArr,
+          centerFigure = figureArrangeArr.splice(centerIndex, 1);
+
+      // 居中图片
+      centerFigure.pos = centerPos;
+      // 上部区域图片
+      var topArrNum = Math.floor(Math.random() * 2),
+          // 上部图片数量 0~1
+      topIndex = Math.floor(Math.random() * (figureArrangeArr.length - topArrNum)),
+          // 上部图片起始 index
+      figureTopArr = figureArrangeArr.splice(topIndex, topArrNum);
+
+      figureTopArr.forEach(function (img, index) {
+        figureTopArr[index].pos = {
+          left: getRandom(verticalRange.x[0], verticalRange.x[1]),
+          top: getRandom(verticalRange.topSectionY[0], verticalRange.topSectionY[1])
+        };
+      });
+      // 左右两边图片
+      for (var i = 0, j = figureArrangeArr.length, k = j / 2; i < j; i++) {
+        var LORSectionX = null;
+        if (i < k) {
+          LORSectionX = leftSectionX;
+        } else {
+          LORSectionX = rightSectionX;
+        }
+        figureArrangeArr[i].pos = {
+          left: getRandom(LORSectionX[0], LORSectionX[1]),
+          top: getRandom(horizontalRange.y[0], horizontalRange.y[1])
+        };
+      }
+      if (figureTopArr && figureTopArr[0]) {
+        figureArrangeArr.splice(topIndex, 0, figureTopArr[0]);
+      }
+      figureArrangeArr.splice(centerIndex, 0, centerFigure);
+      this.setState({
+        figureArrangeArr: figureArrangeArr
+      });
+    }
+
+    // 在组件初次渲染之后触发，计算figure位置范围
+
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       // 获取 stage 的宽高
@@ -22551,19 +22608,31 @@ var Gallery = function (_Component2) {
           rightSectionX: [3 * halfFigureWidth + halfStageWidth, stageWidth - halfFigureWidth],
           y: [-halfFigureHeight, stageHeight - halfFigureHeight]
         },
-        verticalRangr: {
+        verticalRange: {
           x: [halfStageWidth - figureWidth, halfStageWidth],
           topSectionY: [-halfFigureHeight, halfStageHeight - 3 * halfFigureHeight]
         }
       };
+      this.reArrangFigure(0);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var navigators = [];
       var imgFigures = [];
       ImgInfos.forEach(function (imgInfo, index) {
-        imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, id: "figure" + index }));
+        if (!_this3.state.figureArrangeArr[index]) {
+          _this3.state.figureArrangeArr[index] = {
+            pos: {
+              left: 0,
+              top: 0
+            }
+          };
+        }
+        imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, id: "figure" + index,
+          arrange: _this3.state.figureArrangeArr[index] }));
       });
       return _react2.default.createElement(
         'div',
@@ -22633,7 +22702,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  width: 100%;\n  height: 680px;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure figcaption .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  width: 100%;\n  height: 800px;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure figcaption .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
 
 // exports
 
