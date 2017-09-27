@@ -10,9 +10,9 @@ h3{
   padding: 0;
 }
 .stage{
-  width: 100%;
-  height: 800px;
   position: relative;
+  width: 100%;
+  height: 900px;
   background: #ccc;
 }
 .img-container{
@@ -22,6 +22,7 @@ h3{
   background: #dedede;
   overflow: hidden;
 }
+
 .img-figure{
   position: absolute;
   width: 280px;
@@ -32,8 +33,16 @@ h3{
   box-sizing: border-box;
   box-shadow: 5px 5px 16px -1px rgba(0,0,0,0.19);
   background: #fff;
+  cursor: pointer;
   img{
     width: 240px;
+  }
+  .img-back{
+    display: none;
+    p{
+      color: #fccd33;
+      font-size: 16px;
+    }
   }
   figcaption{
     text-align: center;
@@ -44,7 +53,18 @@ h3{
     }
   }
 }
-
+.img-reverse{
+  background: #f1f1f1;
+  .img-back{
+    display: block;
+  }
+  img{
+    display: none;
+  }
+  .img-title{
+    display: none;
+  }
+}
 .img-nav{
   position: absolute;
   left: 0;

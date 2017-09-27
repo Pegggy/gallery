@@ -22444,6 +22444,12 @@ var Image = function (_Component) {
   }
 
   _createClass(Image, [{
+    key: 'handleClick',
+    value: function handleClick(e) {
+      this.props.reverse();
+      e.preventDefault();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var styleObj = {};
@@ -22453,10 +22459,12 @@ var Image = function (_Component) {
       if (this.props.arrange.rotate) {
         styleObj["transform"] = 'rotate(' + this.props.arrange.rotate + 'deg)';
       }
+      var figureClassName = "img-figure";
+      figureClassName += this.props.arrange.isReverse ? ' img-reverse' : '';
       return _react2.default.createElement(
         'figure',
-        { className: 'img-figure', id: this.props.id,
-          style: styleObj },
+        { className: figureClassName, id: this.props.id,
+          style: styleObj, onClick: this.handleClick.bind(this) },
         _react2.default.createElement('img', { src: this.props.data.url,
           alt: this.props.data.title }),
         _react2.default.createElement(
@@ -22466,6 +22474,15 @@ var Image = function (_Component) {
             'h3',
             { className: 'img-title' },
             this.props.data.title
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'img-back', onClick: this.handleClick.bind(this) },
+            _react2.default.createElement(
+              'p',
+              null,
+              this.props.data.desc
+            )
           )
         )
       );
@@ -22525,18 +22542,36 @@ var Gallery = function (_Component2) {
             left: 0,
             top: 0
           },
-          rotate: 0
+          rotate: 0,
+          isReverse: false
         }
         */
       ]
     };
     return _this2;
   }
-
-  // 重新排布图片
+  /**
+   * 翻转图片
+   * @param  index 需要翻转图片的 index 值 
+   * 将该图片 isReverse 取反后触发 setState 进行重新渲染
+   * @return 返回一个待执行函数
+   */
 
 
   _createClass(Gallery, [{
+    key: 'reverseFigure',
+    value: function reverseFigure(index) {
+      return function () {
+        var figureArrangeArr = this.state.figureArrangeArr;
+        figureArrangeArr[index].isReverse = !figureArrangeArr[index].isReverse;
+        this.setState({
+          figureArrangeArr: figureArrangeArr
+        });
+      }.bind(this);
+    }
+    // 重新排布图片
+
+  }, {
     key: 'reArrangFigure',
     value: function reArrangFigure(centerIndex) {
       var constantPos = this.constantPos,
@@ -22549,9 +22584,10 @@ var Gallery = function (_Component2) {
           centerFigure = figureArrangeArr.splice(centerIndex, 1);
 
       // 居中图片
-      centerFigure.pos = centerPos;
-      // 上部区域图片
-      var topArrNum = Math.floor(Math.random() * 2),
+      centerFigure = {
+        pos: centerPos
+        // 上部区域图片
+      };var topArrNum = Math.floor(Math.random() * 2),
           // 上部图片数量 0~1
       topIndex = Math.floor(Math.random() * (figureArrangeArr.length - topArrNum)),
           // 上部图片起始 index
@@ -22629,23 +22665,23 @@ var Gallery = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       var navigators = [];
       var imgFigures = [];
       ImgInfos.forEach(function (imgInfo, index) {
-        if (!_this3.state.figureArrangeArr[index]) {
-          _this3.state.figureArrangeArr[index] = {
+        if (!this.state.figureArrangeArr[index]) {
+          this.state.figureArrangeArr[index] = {
             pos: {
               left: 0,
               top: 0
             },
-            rotate: 0
+            rotate: 0,
+            isReverse: false
           };
         }
-        imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, id: "figure" + index,
-          arrange: _this3.state.figureArrangeArr[index] }));
-      });
+        imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, key: index, id: "figure" + index,
+          arrange: this.state.figureArrangeArr[index],
+          reverse: this.reverseFigure(index) }));
+      }.bind(this));
       return _react2.default.createElement(
         'div',
         { className: 'stage', id: 'stage' },
@@ -22714,7 +22750,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  width: 100%;\n  height: 800px;\n  position: relative;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure figcaption .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  position: relative;\n  width: 100%;\n  height: 900px;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n  cursor: pointer;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure .img-back {\n  display: none;\n}\n.img-figure .img-back p {\n  color: #fccd33;\n  font-size: 16px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure figcaption .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-reverse {\n  background: #f1f1f1;\n}\n.img-reverse .img-back {\n  display: block;\n}\n.img-reverse img {\n  display: none;\n}\n.img-reverse .img-title {\n  display: none;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
 
 // exports
 

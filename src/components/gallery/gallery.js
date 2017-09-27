@@ -11,6 +11,10 @@ let ImgInfos = ImgsData.map((img)=>{
   )
 })
 class Image extends Component{
+  handleClick(e){
+    this.props.reverse()
+    e.preventDefault()
+  }
   render(){
   let styleObj = {}
     if(this.props.arrange.pos){
@@ -19,13 +23,20 @@ class Image extends Component{
     if(this.props.arrange.rotate){
       styleObj["transform"] = `rotate(${this.props.arrange.rotate}deg)`
     }
+    let figureClassName = "img-figure"
+    figureClassName += this.props.arrange.isReverse ? ' img-reverse' : ''
     return(
-      <figure className="img-figure" id={this.props.id}
-      style={styleObj}>
+      <figure className={figureClassName} id={this.props.id}
+      style={styleObj} onClick={this.handleClick.bind(this)}>
         <img src={this.props.data.url} 
         alt={this.props.data.title} />	
         <figcaption>
           <h3 className="img-title">{this.props.data.title}</h3>
+          <div className="img-back" onClick={this.handleClick.bind(this)}>
+            <p>
+              {this.props.data.desc}
+            </p>
+          </div>
         </figcaption>
       </figure>
     )
@@ -77,13 +88,28 @@ class Gallery extends Component{
               left: 0,
               top: 0
             },
-            rotate: 0
+            rotate: 0,
+            isReverse: false
           }
           */
         ]
       }
     }
-
+    /**
+     * 翻转图片
+     * @param  index 需要翻转图片的 index 值 
+     * 将该图片 isReverse 取反后触发 setState 进行重新渲染
+     * @return 返回一个待执行函数
+     */
+    reverseFigure(index){
+      return function(){
+        let figureArrangeArr = this.state.figureArrangeArr
+        figureArrangeArr[index].isReverse = !figureArrangeArr[index].isReverse
+        this.setState({
+          figureArrangeArr: figureArrangeArr
+        })
+      }.bind(this)
+    }
     // 重新排布图片
     reArrangFigure(centerIndex){
       let constantPos = this.constantPos,
@@ -96,7 +122,10 @@ class Gallery extends Component{
           centerFigure = figureArrangeArr.splice(centerIndex,1)
           
       // 居中图片
-      centerFigure.pos = centerPos
+      centerFigure = {
+        pos: centerPos,
+
+      }
       // 上部区域图片
       let topArrNum = Math.floor(Math.random() * 2 ), // 上部图片数量 0~1
           topIndex = Math.floor(Math.random()*(figureArrangeArr.length - topArrNum)), // 上部图片起始 index
@@ -171,19 +200,21 @@ class Gallery extends Component{
   render(){
     let navigators = []
     let imgFigures = []
-    ImgInfos.forEach((imgInfo,index)=>{
+    ImgInfos.forEach(function(imgInfo,index){
       if(!this.state.figureArrangeArr[index]){
         this.state.figureArrangeArr[index] = {
           pos: {
             left: 0,
             top: 0
           },
-          rotate: 0
+          rotate: 0,
+          isReverse: false
         }
       }
-      imgFigures.push(<Image data={imgInfo} id={"figure"+index}
-                      arrange={this.state.figureArrangeArr[index]}/>)
-    })
+      imgFigures.push(<Image data={imgInfo} key={index} id={"figure"+index}
+                      arrange={this.state.figureArrangeArr[index]}
+                      reverse={this.reverseFigure(index)}/>)
+    }.bind(this))
     return(
       <div className="stage" id="stage">
         <div className="img-container">
