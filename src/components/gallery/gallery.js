@@ -28,21 +28,23 @@ class Image extends Component{
     if(this.props.arrange.rotate){
       styleObj["transform"] = `rotate(${this.props.arrange.rotate}deg)`
     }
+    if(this.props.arrange.isCenter){
+      styleObj.zIndex = 11
+    }
     let figureClassName = "img-figure"
     figureClassName += this.props.arrange.isReverse ? ' img-reverse' : ''
     return(
       <figure className={figureClassName} id={this.props.id}
       style={styleObj} onClick={this.handleClick.bind(this)}>
-        <img src={this.props.data.url} 
-        alt={this.props.data.title} />	
-        <figcaption>
+        <div className="front">
+          <img src={this.props.data.url} alt={this.props.data.title} />	
           <h3 className="img-title">{this.props.data.title}</h3>
-          <div className="img-back" onClick={this.handleClick.bind(this)}>
+        </div>
+          <div className="back" onClick={this.handleClick.bind(this)}>
             <p>
               {this.props.data.desc}
             </p>
           </div>
-        </figcaption>
       </figure>
     )
   }

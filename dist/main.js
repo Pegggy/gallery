@@ -22464,30 +22464,32 @@ var Image = function (_Component) {
       if (this.props.arrange.rotate) {
         styleObj["transform"] = 'rotate(' + this.props.arrange.rotate + 'deg)';
       }
+      if (this.props.arrange.isCenter) {
+        styleObj.zIndex = 11;
+      }
       var figureClassName = "img-figure";
       figureClassName += this.props.arrange.isReverse ? ' img-reverse' : '';
       return _react2.default.createElement(
         'figure',
         { className: figureClassName, id: this.props.id,
           style: styleObj, onClick: this.handleClick.bind(this) },
-        _react2.default.createElement('img', { src: this.props.data.url,
-          alt: this.props.data.title }),
         _react2.default.createElement(
-          'figcaption',
-          null,
+          'div',
+          { className: 'front' },
+          _react2.default.createElement('img', { src: this.props.data.url, alt: this.props.data.title }),
           _react2.default.createElement(
             'h3',
             { className: 'img-title' },
             this.props.data.title
-          ),
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'back', onClick: this.handleClick.bind(this) },
           _react2.default.createElement(
-            'div',
-            { className: 'img-back', onClick: this.handleClick.bind(this) },
-            _react2.default.createElement(
-              'p',
-              null,
-              this.props.data.desc
-            )
+            'p',
+            null,
+            this.props.data.desc
           )
         )
       );
@@ -22779,7 +22781,7 @@ exports = module.exports = __webpack_require__(188)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  position: relative;\n  width: 100%;\n  height: 900px;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n  cursor: pointer;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure .img-back {\n  display: none;\n}\n.img-figure .img-back p {\n  color: #fccd33;\n  font-size: 16px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure figcaption .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-reverse {\n  background: #f1f1f1;\n}\n.img-reverse .img-back {\n  display: block;\n}\n.img-reverse img {\n  display: none;\n}\n.img-reverse .img-title {\n  display: none;\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  background: #333;\n  width: 100%;\n  height: 100%;\n}\nh3 {\n  margin: 0;\n  padding: 0;\n}\n.stage {\n  position: relative;\n  width: 100%;\n  height: 900px;\n  background: #ccc;\n}\n.img-container {\n  width: 100%;\n  height: 100%;\n  position: relative;\n  background: #dedede;\n  overflow: hidden;\n}\n@keyframes spin {\n  0% {\n    transform: rotateY(0deg);\n  }\n  100% {\n    transform: rotateY(180deg);\n  }\n}\n.img-figure {\n  position: absolute;\n  width: 280px;\n  height: 300px;\n  margin: 0;\n  padding: 20px;\n  border-radius: 3px;\n  box-sizing: border-box;\n  perspective: 1800px;\n  box-shadow: 5px 5px 16px -1px rgba(0, 0, 0, 0.19);\n  background: #fff;\n  cursor: pointer;\n  transform-style: preserve-3d;\n  transform-origin: 0 50% 0;\n  transition: left 0.5s ease-in-out, top 0.5s ease-in-out, transform 0.5s ease-in-out;\n}\n.img-figure img {\n  width: 240px;\n}\n.img-figure figcaption {\n  text-align: center;\n}\n.img-figure .img-title {\n  font-size: 16px;\n  color: #a7a2a0;\n  margin: 5px 0 0 0;\n}\n.img-figure.img-reverse {\n  transform: translate(320px) rotateY(180deg);\n}\n.front,\n.back {\n  backface-visibility: hidden;\n  position: absolute;\n  top: 0;\n  left: 0;\n  padding: 20px;\n  text-align: center;\n}\n.front {\n  z-index: 2;\n  transform: rotateY(0deg);\n}\n.back {\n  transform: rotateY(180deg);\n}\n.img-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  text-align: center;\n  z-index: 100;\n  width: 100%;\n}\n", ""]);
 
 // exports
 

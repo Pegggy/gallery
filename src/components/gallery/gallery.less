@@ -22,6 +22,14 @@ h3{
   background: #dedede;
   overflow: hidden;
 }
+@keyframes spin{
+  0% {
+    transform: rotateY(0deg);
+  }
+  100%{
+    transform: rotateY(180deg);
+  }
+}
 
 .img-figure{
   position: absolute;
@@ -31,39 +39,45 @@ h3{
   padding: 20px;
   border-radius: 3px;
   box-sizing: border-box;
+  perspective: 1800px;
   box-shadow: 5px 5px 16px -1px rgba(0,0,0,0.19);
   background: #fff;
   cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: 0 50% 0;
+  transition: left .5s ease-in-out,
+              top .5s ease-in-out,
+              transform .5s ease-in-out;
   img{
     width: 240px;
   }
-  .img-back{
-    display: none;
-    p{
-      color: #fccd33;
-      font-size: 16px;
-    }
-  }
   figcaption{
     text-align: center;
-    .img-title{
-      font-size: 16px; 
-      color: #a7a2a0;
-      margin: 5px 0 0 0;
-    }
-  }
-}
-.img-reverse{
-  background: #f1f1f1;
-  .img-back{
-    display: block;
-  }
-  img{
-    display: none;
   }
   .img-title{
-    display: none;
+    font-size: 16px; 
+    color: #a7a2a0;
+    margin: 5px 0 0 0;
   }
+}
+.img-figure.img-reverse{
+    transform: translate(320px) rotateY(180deg);
+}
+.front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    text-align: center;
+}
+.front {
+	z-index: 2;
+	transform: rotateY(0deg);
+}
+
+.back {
+	transform: rotateY(180deg);
 }
 .img-nav{
   position: absolute;
