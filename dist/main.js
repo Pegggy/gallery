@@ -22446,7 +22446,12 @@ var Image = function (_Component) {
   _createClass(Image, [{
     key: 'handleClick',
     value: function handleClick(e) {
-      this.props.reverse();
+      if (this.props.arrange.isCenter) {
+        this.props.reverse();
+      } else {
+        this.props.center();
+      }
+
       e.preventDefault();
     }
   }, {
@@ -22543,7 +22548,8 @@ var Gallery = function (_Component2) {
             top: 0
           },
           rotate: 0,
-          isReverse: false
+          isReverse: false, // 是否翻转
+          isCenter: false // 是否居中
         }
         */
       ]
@@ -22551,14 +22557,28 @@ var Gallery = function (_Component2) {
     return _this2;
   }
   /**
-   * 翻转图片
-   * @param  index 需要翻转图片的 index 值 
-   * 将该图片 isReverse 取反后触发 setState 进行重新渲染
+   * 图片居中
+   * @param 需要居中图片的 index 值
    * @return 返回一个待执行函数
    */
 
 
   _createClass(Gallery, [{
+    key: 'putFigureCenter',
+    value: function putFigureCenter(index) {
+      return function () {
+        this.reArrangFigure(index);
+      }.bind(this);
+    }
+
+    /**
+     * 翻转图片
+     * @param  index 需要翻转图片的 index 值 
+     * 将该图片 isReverse 取反后触发 setState 进行重新渲染
+     * @return 返回一个待执行函数
+     */
+
+  }, {
     key: 'reverseFigure',
     value: function reverseFigure(index) {
       return function () {
@@ -22585,7 +22605,10 @@ var Gallery = function (_Component2) {
 
       // 居中图片
       centerFigure = {
-        pos: centerPos
+        pos: centerPos,
+        rotate: 0,
+        isReverse: false,
+        isCenter: true
         // 上部区域图片
       };var topArrNum = Math.floor(Math.random() * 2),
           // 上部图片数量 0~1
@@ -22599,7 +22622,9 @@ var Gallery = function (_Component2) {
             left: getRandom(verticalRange.x[0], verticalRange.x[1]),
             top: getRandom(verticalRange.topSectionY[0], verticalRange.topSectionY[1])
           },
-          rotate: getRandomDeg
+          rotate: getRandomDeg,
+          isReverse: false,
+          isCenter: false
         };
       });
       // 左右两边图片
@@ -22615,7 +22640,9 @@ var Gallery = function (_Component2) {
             left: getRandom(LORSectionX[0], LORSectionX[1]),
             top: getRandom(horizontalRange.y[0], horizontalRange.y[1])
           },
-          rotate: getRandomDeg()
+          rotate: getRandomDeg(),
+          isReverse: false,
+          isCenter: false
         };
       }
       if (figureTopArr && figureTopArr[0]) {
@@ -22675,12 +22702,14 @@ var Gallery = function (_Component2) {
               top: 0
             },
             rotate: 0,
-            isReverse: false
+            isReverse: false,
+            isCenter: false
           };
         }
         imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, key: index, id: "figure" + index,
           arrange: this.state.figureArrangeArr[index],
-          reverse: this.reverseFigure(index) }));
+          reverse: this.reverseFigure(index),
+          center: this.putFigureCenter(index) }));
       }.bind(this));
       return _react2.default.createElement(
         'div',

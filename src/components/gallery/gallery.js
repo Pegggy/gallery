@@ -12,7 +12,12 @@ let ImgInfos = ImgsData.map((img)=>{
 })
 class Image extends Component{
   handleClick(e){
-    this.props.reverse()
+    if(this.props.arrange.isCenter){
+      this.props.reverse()
+    }else{
+      this.props.center() 
+    }
+    
     e.preventDefault()
   }
   render(){
@@ -89,12 +94,24 @@ class Gallery extends Component{
               top: 0
             },
             rotate: 0,
-            isReverse: false
+            isReverse: false, // 是否翻转
+            isCenter: false // 是否居中
           }
           */
         ]
       }
     }
+    /**
+     * 图片居中
+     * @param 需要居中图片的 index 值
+     * @return 返回一个待执行函数
+     */
+     putFigureCenter(index){
+       return function(){
+        this.reArrangFigure(index)
+       }.bind(this)
+     }
+
     /**
      * 翻转图片
      * @param  index 需要翻转图片的 index 值 
@@ -124,7 +141,9 @@ class Gallery extends Component{
       // 居中图片
       centerFigure = {
         pos: centerPos,
-
+        rotate: 0,
+        isReverse: false,
+        isCenter: true
       }
       // 上部区域图片
       let topArrNum = Math.floor(Math.random() * 2 ), // 上部图片数量 0~1
@@ -137,7 +156,9 @@ class Gallery extends Component{
             left: getRandom(verticalRange.x[0],verticalRange.x[1]),
             top: getRandom(verticalRange.topSectionY[0],verticalRange.topSectionY[1])
           },
-          rotate: getRandomDeg
+          rotate: getRandomDeg,
+          isReverse: false,
+          isCenter: false
         }
       })
       // 左右两边图片
@@ -153,7 +174,9 @@ class Gallery extends Component{
             left: getRandom(LORSectionX[0],LORSectionX[1]),
             top: getRandom(horizontalRange.y[0],horizontalRange.y[1])
           },
-          rotate: getRandomDeg()
+          rotate: getRandomDeg(),
+          isReverse: false,
+          isCenter: false
         }
       }
       if(figureTopArr && figureTopArr[0]){
@@ -208,12 +231,14 @@ class Gallery extends Component{
             top: 0
           },
           rotate: 0,
-          isReverse: false
+          isReverse: false,
+          isCenter: false
         }
       }
       imgFigures.push(<Image data={imgInfo} key={index} id={"figure"+index}
                       arrange={this.state.figureArrangeArr[index]}
-                      reverse={this.reverseFigure(index)}/>)
+                      reverse={this.reverseFigure(index)}
+                      center={this.putFigureCenter(index)}/>)
     }.bind(this))
     return(
       <div className="stage" id="stage">
