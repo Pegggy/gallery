@@ -22450,9 +22450,9 @@ var Image = function (_Component) {
       if (this.props.arrange.pos) {
         styleObj = this.props.arrange.pos;
       }
-      // if(this.props.arrange.rotate){
-      //   style["transform"] = `rotate(${this.props.arrange.rotate}deg`
-      // }
+      if (this.props.arrange.rotate) {
+        styleObj["transform"] = 'rotate(' + this.props.arrange.rotate + 'deg)';
+      }
       return _react2.default.createElement(
         'figure',
         { className: 'img-figure', id: this.props.id,
@@ -22477,6 +22477,10 @@ var Image = function (_Component) {
 
 var getRandom = function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+};
+// 获取-30~30的随机数字
+var getRandomDeg = function getRandomDeg() {
+  return (Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30);
 };
 
 /**
@@ -22520,7 +22524,8 @@ var Gallery = function (_Component2) {
           pos:{
             left: 0,
             top: 0
-          }
+          },
+          rotate: 0
         }
         */
       ]
@@ -22553,9 +22558,12 @@ var Gallery = function (_Component2) {
       figureTopArr = figureArrangeArr.splice(topIndex, topArrNum);
 
       figureTopArr.forEach(function (img, index) {
-        figureTopArr[index].pos = {
-          left: getRandom(verticalRange.x[0], verticalRange.x[1]),
-          top: getRandom(verticalRange.topSectionY[0], verticalRange.topSectionY[1])
+        figureTopArr[index] = {
+          pos: {
+            left: getRandom(verticalRange.x[0], verticalRange.x[1]),
+            top: getRandom(verticalRange.topSectionY[0], verticalRange.topSectionY[1])
+          },
+          rotate: getRandomDeg
         };
       });
       // 左右两边图片
@@ -22566,9 +22574,12 @@ var Gallery = function (_Component2) {
         } else {
           LORSectionX = rightSectionX;
         }
-        figureArrangeArr[i].pos = {
-          left: getRandom(LORSectionX[0], LORSectionX[1]),
-          top: getRandom(horizontalRange.y[0], horizontalRange.y[1])
+        figureArrangeArr[i] = {
+          pos: {
+            left: getRandom(LORSectionX[0], LORSectionX[1]),
+            top: getRandom(horizontalRange.y[0], horizontalRange.y[1])
+          },
+          rotate: getRandomDeg()
         };
       }
       if (figureTopArr && figureTopArr[0]) {
@@ -22628,7 +22639,8 @@ var Gallery = function (_Component2) {
             pos: {
               left: 0,
               top: 0
-            }
+            },
+            rotate: 0
           };
         }
         imgFigures.push(_react2.default.createElement(Image, { data: imgInfo, id: "figure" + index,
