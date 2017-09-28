@@ -7,13 +7,6 @@ module.exports = {
     path: path.resolve(__dirname,'./dist'),
     filename: "[name].js"
   },
-	// plugins: [
-	// 	new HtmlWebpackPlugin({
-	// 		filename : "./index.html",
-	// 		template: "./index.html",
-	// 		inject : "body"
-	// 	})
-	// ],
 	devServer:{
     contentBase: path.join(__dirname,'./dist')
 	},
@@ -62,15 +55,6 @@ module.exports = {
 							}
 					}]
 			},
-			// {
-			// 	test: /\.(gif|png|jpe?g|svg)$/i,
-			// 	loader:'file-loader',
-			// 	options:{
-			// 		/*图片名称*/
-			// 		name:"imgs/[name].[ext]",
-			// 		/*位置*/
-			// 	}
-			// },
 			{
 				test:/\.json$/,
 				loader:"json-loader"
