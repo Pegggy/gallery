@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import ReactDom from 'react-dom'
 import ImgsData from './imgsdata.json'
 import Image from './image'
+import Controller from './controller'
 import './gallery.less'
 
 // 获取图片数组相关信息，增加 URL
@@ -12,17 +13,7 @@ let ImgInfos = ImgsData.map((img)=>{
   )
 })
 
-class Controller extends Component{
-  handleClick(e){
-    
-    e.preventDefault()
-  }
-  render(){
-    return (
-      <span className="controller" onClick={this.handleClick.bind(this)}></span>
-    )
-  }
-}
+
 let getRandom = (min,max) => {
   return Math.floor(Math.random() * (max - min) + min) 
 }
@@ -214,7 +205,10 @@ class Gallery extends Component{
                       arrange={this.state.figureArrangeArr[index]}
                       reverse={this.reverseFigure(index)}
                       center={this.putFigureCenter(index)}/>)
-      navigators.push(<Controller key={index} />)
+      navigators.push(<Controller key={index} 
+                      arrange={this.state.figureArrangeArr[index]}
+                      reverse={this.reverseFigure(index)}
+                      center={this.putFigureCenter(index)}/>)
   }.bind(this))
     return(
       <div className="stage" id="stage">

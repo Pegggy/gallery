@@ -11,7 +11,7 @@ class Image extends Component{
     e.preventDefault()
   }
   render(){
-  let styleObj = {}
+    let styleObj = {}
     if(this.props.arrange.pos){
       styleObj = this.props.arrange.pos
     }
