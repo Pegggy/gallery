@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import ReactDom from 'react-dom'
 import ImgsData from './imgsdata.json'
+import Image from './image'
 import './gallery.less'
 
 // 获取图片数组相关信息，增加 URL
@@ -10,46 +11,18 @@ let ImgInfos = ImgsData.map((img)=>{
     {url: require(`src/imgs/${img.filename}`)}
   )
 })
-class Image extends Component{
+
+class Controller extends Component{
   handleClick(e){
-    if(this.props.arrange.isCenter){
-      this.props.reverse()
-    }else{
-      this.props.center() 
-    }
     
     e.preventDefault()
   }
   render(){
-  let styleObj = {}
-    if(this.props.arrange.pos){
-      styleObj = this.props.arrange.pos
-    }
-    if(this.props.arrange.rotate){
-      styleObj["transform"] = `rotate(${this.props.arrange.rotate}deg)`
-    }
-    if(this.props.arrange.isCenter){
-      styleObj.zIndex = 11
-    }
-    let figureClassName = "img-figure"
-    figureClassName += this.props.arrange.isReverse ? ' img-reverse' : ''
-    return(
-      <figure className={figureClassName} id={this.props.id}
-      style={styleObj} onClick={this.handleClick.bind(this)}>
-        <div className="front">
-          <img src={this.props.data.url} alt={this.props.data.title} />	
-          <h3 className="img-title">{this.props.data.title}</h3>
-        </div>
-          <div className="back" onClick={this.handleClick.bind(this)}>
-            <p>
-              {this.props.data.desc}
-            </p>
-          </div>
-      </figure>
+    return (
+      <span className="controller" onClick={this.handleClick.bind(this)}></span>
     )
   }
 }
-
 let getRandom = (min,max) => {
   return Math.floor(Math.random() * (max - min) + min) 
 }
@@ -241,7 +214,8 @@ class Gallery extends Component{
                       arrange={this.state.figureArrangeArr[index]}
                       reverse={this.reverseFigure(index)}
                       center={this.putFigureCenter(index)}/>)
-    }.bind(this))
+      navigators.push(<Controller key={index} />)
+  }.bind(this))
     return(
       <div className="stage" id="stage">
         <div className="img-container">

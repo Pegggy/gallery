@@ -43,15 +43,15 @@ module.exports = {
 					}
 				}
 			},
-			// {
-			// 	test: /\.(woff|svg|ttf|eot)$/i,
-			// 	loader:'url-loader',
-			// 	options:{
-			// 		/*图片名称*/
-			// 		name:"fonts/[name].[ext]",
-			// 		/*位置*/
-			// 	}
-			// },
+			{
+				test: /\.(woff|svg|ttf|eot)$/i,
+				loader:'url-loader',
+				options:{
+					/*图片名称*/
+					name:"fonts/[name].[ext]",
+					/*位置*/
+				}
+			},
 			//引入 imgs 下的图片
 			{
 					test: /\.(png|jpg|gif)$/,
